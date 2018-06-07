@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Lista de Formas de Pagamento</title>
+	<style>
+body {
+	margin-top: 0;
+	margin: 0;
+}
+</style>
+</h:head>
+<h:body>
+	<ui:insert name="header">
+		<ui:include src="/templates/modelo.xhtml" />
+	</ui:insert>
+	<h:form id="form">
+
+		<p:growl id="msgs" showDetail="true" />
+
+		<p:dataTable id="tbl" var="f" value="#{formaPgtoCtrl.listagem}"
+			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
+					{PageLinks} {NextPageLink} {LastPageLink}"
+			paginator="true" rows="10" style="margin-bottom:20px">
+
+			<f:facet name="header">
+				<h:outputLabel value="Formas de Pagamento" />
+				<p:commandButton value="Inserir" icon="icon-novo"
+					actionListener="#{formaPgtoCrtl.actionInserir}"
+					oncomplete="PF('cadDialog').show()" update=":form:cadDetail">
+				</p:commandButton>
+			</f:facet>
+			<p:column headerText="ID" sortBy="f.id"
+				style="text-align: center">
+				<h:outputText value="#{f.id}" />
+			</p:column>
+
+			<p:column headerText="Descrição" sortBy="f.descricao"
+				style="text-align: center">
+				<h:outputText value="#{f.descricao}" />
+			</p:column>
+
+			<p:column headerText="Nº Padrão de Parcelas" sortBy="f.numPadraoParc"
+				style="text-align: center">
+				<h:outputText value="#{f.numPadraoParc}" />
+
+			</p:column>
+			<p:column headerText="Nº Máx. Parc." sortBy="f.numMaxParc"
+				style="text-align: center ">
+				<h:outputText value="#{f.numMaxParc}" />
+			</p:column>
+
+			<p:column headerText="Desconto" sortBy="f.desconto"
+				style="text-align: center ">
+				<h:outputText value="#{f.desconto}" />
+			</p:column>
+
+			<p:column  headerText= "Opções" style="width:32px;text-align: center">
+				<p:commandButton update=":form:cadDetail"
+					oncomplete="PF('cadDialog').show()" icon="ui-icon-pencil"
+					title="View">
+					<f:setPropertyActionListener value="#{f}"
+						target="#{formaPgtoCtrl.formaPgto}" />
+				</p:commandButton>
+				<p:commandButton update=":form:cadDetail"
+					oncomplete="PF('cadDialog').show()" icon="ui-icon-trash"
+					title="View" action="#{formaPgtoCtrl.actionExcluir}" >
+				</p:commandButton>
+			</p:column>
+
+		</p:dataTable>
+
+		<p:dialog header="Cadastro Forma de Pagamento" widgetVar="cadDialog"
+			modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+			<p:outputPanel id="cadDetail" style="text-align: center;">
+				<h:panelGrid columns="2" style="text-align: left">
+					<h:outputLabel value="Código" />
+					<p:inputText value="#{formaPgtoCtrl.formaPgto.id}" size="6"
+						maxlength="10" readonly="true" />
+					<h:outputLabel value="Nome" />
+					<p:inputText value="#{formaPgtoCtrl.formaPgto.descricao}" size="30"
+						maxlength="20" />
+					<h:outputLabel value="Nº Máx. Parcelas" />
+					<p:inputText value="#{formaPgtoCtrl.formaPgto.numMaxParc}"
+						size="6" maxlength="3" />
+					<h:outputLabel value="Nº Padrão de Parcelas" />
+					<p:inputText value="#{formaPgtoCtrl.formaPgto.numPadraoParc}"
+						size="6" maxlength="3" />
+					<h:outputLabel value="Desconto" />
+					<p:inputText value="#{formaPgtoCtrl.formaPgto.desconto}"
+						size="6" maxlength="6" />
+
+
+				</h:panelGrid>
+				<h:commandButton action="#{formaPgtoCtrl.actionExcluir}"
+					update="growl" value="Excluir" />
+				<h:commandButton action="#{formaPgtoCtrl.actionGravar}"
+					update="growl" value="Gravar" />
+				<h:commandButton oncomplete="cadDialog.hide()" value="Cancelar" />
+			</p:outputPanel>
+		</p:dialog>
+		<div align="center">
+			<h:commandButton action="/admin/principal.xhtml" value="Voltar" />
+		</div>
+	</h:form>
+</h:body>
+</html>

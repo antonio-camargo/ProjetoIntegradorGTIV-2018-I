@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Cadastro de Produto</title>
+</h:head>
+<h:body>
+<ui:insert name="header">
+		<ui:include src="/templates/modelo.xhtml" />
+	</ui:insert>
+	<h:form enctype="multipart/form-data">
+		<div align="center">
+
+			<p:panel id="cadastroDeProduto" header="Cadastro de Produto"
+				style="margin-bottom:20px">
+
+				<h:panelGrid columns="2">
+					<h:outputLabel value="Nome" />
+					<h:inputText value="#{produtoCtrl.produto.nome}" />
+
+					<h:outputLabel value="Preço" />
+					<h:inputText value="#{produtoCtrl.produto.preco}" />
+					
+					<p:outputLabel value="Foto:"/>
+					<p:fileUpload mode="advanced" fileUploadListener="#{produtoCtrl.uploadAction}" auto="true"/>
+				</h:panelGrid>
+				<p:commandButton value="Salvar" action="#{produtoCtrl.actionGravar}" />
+			</p:panel>
+		</div>
+		<div align="center">
+			<h:commandButton action="/admin/principal.xhtml" value="Voltar" />
+		</div>
+	</h:form>
+</h:body>
+</html>

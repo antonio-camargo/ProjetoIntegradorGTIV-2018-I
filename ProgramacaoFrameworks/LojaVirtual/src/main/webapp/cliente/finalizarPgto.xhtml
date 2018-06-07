@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+	<title>Forma de Pagamento</title>
+	<style>
+body {
+	margin-top: 0;
+	margin: 0;
+}
+</style>
+	<ui:insert name="header">
+		<ui:include src="/templates/modelo.xhtml" />
+	</ui:insert>
+</h:head>
+<h:body>
+	<h:form id="form-pagamento">
+		<p:growl id="msgs" showDetail="true" />
+		<p:panel columns="2" header="Formas de Pagamento"
+			style="text-align: center">
+			<br />
+
+			<p:selectOneRadio layout="responsive" columns="1"
+				value="#{pedidoCtrl.forma.id}">
+				<f:selectItems value="#{formaPgtoCtrl.listagem}" var="pagamento"
+					itemLabel="#{pagamento.descricao}" itemValue="#{pagamento.id}" />
+				<p:ajax event="change" listener="#{pedidoCtrl.controleParcelas}"
+					update=":form-pagamento:parcelas :form-pagamento-subtotal" />
+			</p:selectOneRadio>
+
+			<p:outputLabel value="Parcelas" />
+			<p:selectOneMenu disabled="#{pedidoCtrl.desabilitarParcelas}"
+				id="parcelas" value="#{pedidoCtrl.forma.numPadraoParc}">
+				<p:ajax event="change" listener="#{pedidoCtrl.jurosSobreParcela}"
+					update=":form-pagamento-subtotal:valorTotal" />
+				<f:selectItem itemValue="1" itemLabel="1x (sem juros)" />
+				<f:selectItem itemValue="2" itemLabel="2x (sem juros)" />
+				<f:selectItem itemValue="3" itemLabel="3x (sem juros)" />
+				<f:selectItem itemValue="4" itemLabel="4x (sem juros)" />
+				<f:selectItem itemValue="5" itemLabel="5x (sem juros)" />
+				<f:selectItem itemValue="6" itemLabel="6x (sem juros)" />
+				<f:selectItem itemValue="7" itemLabel="7x (sem juros)" />
+				<f:selectItem itemValue="8" itemLabel="8x (sem juros)" />
+				<f:selectItem itemValue="9" itemLabel="9x (sem juros)" />
+				<f:selectItem itemValue="10" itemLabel="10x (sem juros)" />
+				<f:selectItem itemValue="11" itemLabel="11x (juros 5%)" />
+				<f:selectItem itemValue="12" itemLabel="12x (juros 10%)" />
+			</p:selectOneMenu>
+
+			<p:dataTable value="#{pedidoCtrl.itens}" var="item">
+				<f:facet name="header">
+					<h:outputLabel value="Produtos Escolhidos" />
+
+				</f:facet>
+
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputLabel value="Imagem" />
+					</f:facet>
+					<p:graphicImage value="/home/tony/img/?file=#{item.produto.foto}"
+						width="50" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputLabel value="Nome" />
+					</f:facet>
+					<h:outputLabel value="#{item.produto.nome}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputLabel value="Quantidade" />
+					</f:facet>
+					<h:outputLabel value="#{item.quantidade}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputLabel value="Preço Unitario" />
+					</f:facet>
+					<h:outputLabel id="precoProduto" value="#{item.produto.preco}" />
+				</p:column>
+
+			</p:dataTable>
+		</p:panel>
+	</h:form>
+
+	<h:form id="form-pagamento-subtotal">
+		<p:panel columns="2" header="Finalizar Pagamento"
+			style="text-align: center">
+			<div align="center">
+				<p:panelGrid columns="2" id="subTotal" style="text-align: center">
+					<h:outputLabel value="SubTotal" />
+					<h:outputLabel value="#{pedidoCtrl.subTotal}" />
+
+					<h:outputLabel value="Desconto" />
+					<h:outputLabel id="valorDesconto"
+						value="#{pedidoCtrl.pedido.desconto}" />
+
+					<h:outputLabel value="Total" />
+					<h:outputLabel id="valorTotal" value="#{pedidoCtrl.pedido.total}" />
+
+					<p:commandButton  value="Finalizar Pedido" 
+						action="#{pedidoCtrl.actionGravar}"  ajax="false"/>
+				</p:panelGrid>
+				</div>
+		</p:panel>
+	</h:form>
+</h:body>
+</html>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+	<title>Pedido Finalizado</title>
+	<style>
+body {
+	margin-top: 0;
+	margin: 0;
+}
+</style>
+	<ui:insert name="header">
+		<ui:include src="/templates/modelo.xhtml" />
+	</ui:insert>
+</h:head>
+<h:body>
+	<h:form id="form-pagamento">
+		<p:growl id="msgs" showDetail="true" />
+		<p:panel columns="2" header="Pedido Finalizado"
+			style="text-align: center">
+			<br />
+		<h2>Número do pedido gerado: </h2>
+
+			<p:dataTable value="#{pedidoCtrl.itens}" var="item">
+				<f:facet name="header">
+					<h:outputLabel value="Produtos Escolhidos" />
+
+				</f:facet>
+
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputLabel value="Imagem" />
+					</f:facet>
+					<p:graphicImage value="/home/tony/img/?file=#{item.produto.foto}"
+						width="50" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputLabel value="Nome" />
+					</f:facet>
+					<h:outputLabel value="#{item.produto.nome}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputLabel value="Quantidade" />
+					</f:facet>
+					<h:outputLabel value="#{item.quantidade}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputLabel value="Preço Unitario" />
+					</f:facet>
+					<h:outputLabel id="precoProduto" value="#{item.produto.preco}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputLabel value="Valor Total" />
+					</f:facet>
+					<h:outputLabel id="precototal" value="#{item.pedido.total}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputLabel value="Juros " />
+					</f:facet>
+					<h:outputLabel id="Juros" value="#{item.pedido.total}" />
+				</p:column>
+				
+
+			</p:dataTable>
+		</p:panel>
+	</h:form>
+
+</h:body>
+</html>

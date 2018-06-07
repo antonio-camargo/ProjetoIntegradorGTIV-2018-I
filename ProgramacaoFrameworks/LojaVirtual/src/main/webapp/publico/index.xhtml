@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Página inicial</title>
+
+	<style>
+body {
+	margin-top: 0;
+	margin: 0;
+}
+</style>
+
+</h:head>
+<h:body>
+	<ui:insert name="header">
+		<ui:include src="/templates/modelo.xhtml" />
+	</ui:insert>
+	<h:form id="frm-carrinho">
+		<p:growl id="msgs" showDetail="true" />
+		<p:dataGrid styleClass="teste " var="produto"
+			value="#{produtoCtrl.listagem}" columns="3" layout="grid"
+			paginator="true" id="produtos" rows="12"
+			rowsPerPageTemplate="6,12,16">
+
+			<f:facet name="header">
+				<h:outputLabel value="Produtos" />
+				<br />
+				<br />
+				<p:commandButton update="frm-carrinho" value="Finalizar Compra"
+					action="#{pedidoCtrl.actionPedido}" />
+			</f:facet>
+
+			<p:panel style="text-align:center">
+				<p:panelGrid columns="1" style="width:100%">
+
+					<p:column>
+						<f:facet name="header">
+							<h:outputLabel value="Foto" />
+						</f:facet>
+						<p:graphicImage value="/home/tony/img/?file=#{produto.foto}"
+							width="200" />
+					</p:column>
+
+					<p:column style="stext-align: center">
+						<f:facet name="header">
+							<h:outputLabel value="Nome" />
+						</f:facet>
+						<h:outputLabel value="#{produto.nome}" />
+					</p:column>
+
+
+
+
+					<p:column>
+						<f:facet name="header">
+							<h:outputLabel value="Preço" />
+						</f:facet>
+						<p:outputLabel value="Preço: #{produto.preco}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">
+							<h:outputLabel value="BotaoCarrinho" />
+						</f:facet>
+						<p:commandButton value="Add no carrinho"
+							actionListener="#{pedidoCtrl.adicionarProdutoAoCarrinho(produto)}"
+							update="frm-carrinho">
+
+						</p:commandButton>
+					</p:column>
+
+
+				</p:panelGrid>
+
+			</p:panel>
+		</p:dataGrid>
+		<p:panel columns ="2" header="Finalizar Compra"
+			style="text-align: center">
+
+
+			<p:commandButton update="frm-carrinho" value="Finalizar Compra"
+				action="#{pedidoCtrl.actionPedido}" />
+
+			</p:panel>
+	</h:form>
+</h:body>
+</html>
