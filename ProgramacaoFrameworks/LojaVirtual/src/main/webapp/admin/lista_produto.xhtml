@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Listagem de Produtos</title>
+	<style>
+body {
+	margin-top: 0;
+	margin: 0;
+}
+</style>
+</h:head>
+<h:body>
+	<ui:insert name="header">
+		<ui:include src="/templates/modelo.xhtml" />
+	</ui:insert>
+	<div align="center">
+		<h:form id="form">
+			<p:dataTable id="tbl" var="f" value="#{produtoCtrl.listagem}"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
+					{PageLinks} {NextPageLink} {LastPageLink}"
+				paginator="true" rows="20" style="margin-bottom:20px">
+
+				<f:facet name="header">
+					<h:outputLabel value="Lista de Produtos" />
+					<p:commandButton value="Inserir Produto"
+						action="/admin/inserir_produto">
+					</p:commandButton>
+				</f:facet>
+				<p:column headerText="Foto" sortBy="f.foto"
+					style="stext-align: center">
+					<p:graphicImage value="/home/tony/img/?file=#{f.foto}" width="200" />
+				</p:column>
+				<p:column headerText="ID" sortBy="f.descricao"
+					style="stext-align: center">
+					<h:outputText value="#{f.id}" />
+				</p:column>
+
+				<p:column headerText="Nome" sortBy="f.nome"
+					style="stext-align: center">
+					<h:outputText value="#{f.nome}" />
+				</p:column>
+
+				<p:column headerText="Preço" sortBy="f.preco"
+					style="stext-align: center">
+					<h:outputText value="#{f.preco}" />
+				</p:column>
+
+				<p:column headerText="Opções" style="width:60px;text-align: center">
+					<p:commandButton update=":form:cadDetail"
+						oncomplete="PF('cadDialog').show()" icon="ui-icon-pencil"
+						title="View">
+						<f:setPropertyActionListener value="#{f}"
+							target="#{produtoCtrl.produto}" />
+					</p:commandButton>
+					<p:commandButton action="#{produtoCtrl.actionExcluir}"
+						icon="ui-icon-trash" update="form">
+						<f:setPropertyActionListener value="#{f}"
+							target="#{produtoCtrl.produto}" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+
+			<p:dialog header="Cadastro de Produto" widgetVar="cadDialog"
+				modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+				<p:outputPanel id="cadDetail" style="text-align: center;">
+					<h:panelGrid columns="2" style="text-align: left">
+						<h:outputLabel value="Foto" />
+						<h:outputLabel value="Código" />
+						<p:inputText value="#{produtoCtrl.produto.id}" size="6"
+							maxlength="10" readonly="true" />
+						<h:outputLabel value="Nome" />
+						<p:inputText value="#{produtoCtrl.produto.nome}" size="30"
+							maxlength="20" />
+						<h:outputLabel value="Preço" />
+						<p:inputText value="#{produtoCtrl.produto.preco}" size="6"
+							maxlength="6" />
+					</h:panelGrid>
+					<h:panelGrid columns="3" style="text-align: left">
+						<h:commandButton action="#{produtoCtrl.actionExcluir}"
+							update="growl" value="Excluir" />
+						<h:commandButton action="#{produtoCtrl.actionGravar}"
+							update="growl" value="Gravar" />
+						<h:commandButton oncomplete="cadDialog.hide()" value="Cancelar" />
+					</h:panelGrid>
+				</p:outputPanel>
+			</p:dialog>
+			<div align="center">
+			<h:commandButton action="/admin/principal.xhtml" value="Voltar" />
+		</div>
+		</h:form>
+	</div>
+</h:body>
+</html>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:insert name="metadata" />
+
+<h:head>
+	<title>Loja Virtual</title>
+	<style>
+body {
+	margin-top: 0;
+	margin: 0;
+}
+</style>
+</h:head>
+<h:body>
+	<p:growl id="mensagem" />
+
+	<div id="geral" style="margin-top: 10px;">
+
+		<div id="cabecalho" class="divCabecalho">
+			<h:form id="formMenu">
+				<p:menubar>
+					<p:submenu label="Sair">
+						<p:menuitem value="Logout"
+							onclick="document.location='#{request.contextPath}/j_spring_security_logout'" />
+					</p:submenu>
+
+					<p:submenu label="Cliente">
+						<p:menuitem value="Cadastrar-se"
+							url="/publico/cadastro_cliente.xhtml" />
+						<p:menuitem value="Principal"
+							url="/publico/index.xhtml" />
+					</p:submenu>
+					<p:submenu label="Administrador">
+						<p:menuitem value="Logar"
+							url="/publico/login.xhtml" />
+						<p:menuitem value="Principal"
+							url="/admin//principal.xhtml" />
+					</p:submenu>
+
+		
+				</p:menubar>
+			</h:form>
+		</div>
+		<div id="conteudo">
+			<ui:insert name="conteudo" />
+		</div>
+	</div>
+</h:body>
+</html>
